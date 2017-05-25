@@ -1,5 +1,6 @@
 package com.example.zhou.litepaltest;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -7,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.zwonb.mylibrary.MyModule;
+import com.zwonb.utillibrary.Test;
 
 import org.litepal.LitePal;
 import org.litepal.LitePalDB;
@@ -16,8 +20,6 @@ import org.litepal.tablemanager.Connector;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.litepal.crud.DataSupport.count;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.add_data).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LitePal.useDefault();
                 Book book = new Book();
                 book.setName("The Da Vinci Code");
                 book.setAuthor("Dan Brown");
@@ -212,7 +215,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //删除这个表里面所有的数据
                 DataSupport.deleteAll(Book.class);
+                Intent intent = new Intent(MainActivity.this, MyModule.class);
+                startActivity(intent);
             }
         });
+    }
+
+    public void deleteDB(View view) {
+        LitePal.deleteDatabase("BookStore");
     }
 }
